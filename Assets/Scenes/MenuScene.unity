@@ -750,6 +750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disappearingPointPrefab: {fileID: 4011486675541548724, guid: df15573bbe369a24bbc8a9c31ea4d18d, type: 3}
+  cursorDefault: {fileID: 2800000, guid: 2e9caab58faec314eb70e256405d8807, type: 3}
+  cursorPointer: {fileID: 2800000, guid: 031704f72cc3ba84abbb3f72a3fa8bd6, type: 3}
   disappearingRadius: 30
   animationDuration: 0.3
 --- !u!1 &578522587

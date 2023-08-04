@@ -20,6 +20,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerEnter(PointerEventData eventData)
     {
         SetImageColor(hoverColor);
+        UIManager.SetCursorPointer();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -27,10 +28,12 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (isPressed_)
         {
             SetImageColor(hoverColor);
+            UIManager.SetCursorPointer();
         }
         else
         {
             SetImageColor(defaultColor);
+            UIManager.SetCursorDefault();
         }
     }
 
@@ -50,6 +53,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         else
         {
             SetImageColor(defaultColor);
+            UIManager.SetCursorDefault();
         }
         isPressed_ = false;
     }
