@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {   
     public static UIManager Instance {get; private set;} 
+    public GameObject ConsumablePopup;
+    public GameObject WalletPopup;
     public GameObject disappearingPointPrefab;
     public Texture2D cursorDefault;
     public Texture2D cursorPointer;
@@ -58,5 +60,15 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
         Destroy(pointImage.gameObject);
+    }
+
+    public void OpenConsumablePopup()
+    {
+        ConsumablePopup.SetActive(true);
+    }
+
+    public void CloseConsumablePopup()
+    {
+        ConsumablePopup.SetActive(false);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
+    public string onClickFunctionName;
     public Color defaultColor;
     public Color hoverColor;
     public Color pressedColor;
@@ -49,6 +50,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (IsPointerOverGameObject())
         {
             SetImageColor(hoverColor);
+            InitClick();
         }
         else
         {
@@ -75,5 +77,16 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
             }
         }
         return false;
+    }
+    public void InitClick()
+    {
+        if (UIManager.Instance != null && !string.IsNullOrEmpty(onClickFunctionName))
+        {
+            System.Reflection.MethodInfo methodInfo = UIManager.Instance.GetType().GetMethod(onClickFunctionName);
+            if (methodInfo != null)
+            {
+                methodInfo.Invoke(UIManager.Instance, null);
+            }
+        }
     }
 }
