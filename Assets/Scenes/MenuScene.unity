@@ -3534,27 +3534,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2270337365869263824, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2270337365869263824, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2270337365869263824, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2270337365869263824, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2270337365869263824, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2270337365869263824, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -18
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2270337365869263827, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 2270337366215960996, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: m_Pivot.x
@@ -3649,9 +3653,41 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: hoverColor.b
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: hoverColor.g
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: hoverColor.r
+      value: 0.7169812
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: callableObject
       value: 
       objectReference: {fileID: 496813706}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: defaultColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: pressedColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: pressedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: pressedColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
+      propertyPath: pressedColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8360254189893064771, guid: a3b1673a7c5eb40438ced1304f0d67fa, type: 3}
       propertyPath: onClickFunctionName
       value: CloseConsumablePopup

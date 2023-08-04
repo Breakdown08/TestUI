@@ -49,14 +49,13 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (IsPointerOverGameObject())
         {
-            SetImageColor(hoverColor);
             InitClick();
         }
         else
         {
-            SetImageColor(defaultColor);
             UIManager.SetCursorDefault();
         }
+        SetImageColor(defaultColor);
         isPressed_ = false;
     }
 
