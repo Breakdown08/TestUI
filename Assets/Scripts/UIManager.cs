@@ -71,4 +71,9 @@ public class UIManager : MonoBehaviour
     {
         ConsumablePopup.SetActive(false);
     }
+
+    public void ConvertCoinToCredit(int coinAmount)
+    {
+        GameModel.ConvertCoinToCredit(coinAmount);
+    }
 }
