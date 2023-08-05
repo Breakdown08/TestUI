@@ -2,42 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {   
-    public static UIManager Instance {get; private set;} 
+    public static UIManager Instance {get; private set;}
+
+    [Header("Global UI Counters/Text")]
+    public List<TMP_Text> MedpackCount;
+    public List<TMP_Text> ArmorPlateCount;
+    public List<TMP_Text> CoinCount;
+    public List<TMP_Text> CreditCount;
+    public List<TMP_Text> ErrorMessage;
+
+    [Header("Consumable Popup")]
     public GameObject ConsumablePopup;
+    public TMP_Text MedpackPrice;
+    public TMP_Text ArmorPlatePrice;
+    
     public GameObject WalletPopup;
+
+    [Header("Cursor")]
     public GameObject disappearingPointPrefab;
     public Texture2D cursorDefault;
     public Texture2D cursorPointer;
-    public float disappearingRadius = 30f;
-    public float animationDuration = 0.3f;
-    
-    public static Vector2 cursorDefaultHotSpot = new Vector2(0, 0);
-    public static Vector2 cursorPointertHotSpot = new Vector2(15, 3);
+    private static Vector2 cursorDefaultHotSpot_ = new Vector2(0, 0);
+    private static Vector2 cursorPointertHotSpot_ = new Vector2(15, 3);
 
-    public static void SetCursorPointer()
-    {
-        Cursor.SetCursor(UIManager.Instance.cursorPointer, UIManager.cursorPointertHotSpot, CursorMode.Auto);
-    }
-
-    public static void SetCursorDefault()
-    {
-        Cursor.SetCursor(UIManager.Instance.cursorDefault, UIManager.cursorDefaultHotSpot, CursorMode.Auto);
-    }
-
-
-    void Awake()
+    private void Awake()
     {
         Instance = this;
+        GameModel.OperationComplete += HandleOperationComplete;
+        GameModel.ModelChanged += RefreshUI;
     }
 
-    void Update()
+    private void Update()
     {
         GameModel.Update();
     }
 
+    private void Start()
+    {
+        RefreshUI();
+    }
+
+    private void HandleOperationComplete(GameModel.OperationResult result)
+    {
+        if (!result.IsSuccess)
+        {
+            Utils.SetObjectsTextValue(ErrorMessage, result.ErrorDescription);
+            foreach (TMP_Text text in ErrorMessage)
+            {
+                StartCoroutine(Utils.FadeText(text));
+            }
+        }
+    }
+
+    private void RefreshUI()
+    {
+        Utils.SetObjectsTextValue(MedpackCount, GameModel.GetConsumableCount(GameModel.ConsumableTypes.Medpack).ToString());
+        Utils.SetObjectsTextValue(ArmorPlateCount, GameModel.GetConsumableCount(GameModel.ConsumableTypes.ArmorPlate).ToString());
+        MedpackPrice.text = GameModel.ConsumablesPrice[GameModel.ConsumableTypes.Medpack].CoinPrice.ToString();
+        ArmorPlatePrice.text = GameModel.ConsumablesPrice[GameModel.ConsumableTypes.ArmorPlate].CreditPrice.ToString();
+        Utils.SetObjectsTextValue(CreditCount, GameModel.CreditCount.FormatWithSpaces());
+        Utils.SetObjectsTextValue(CoinCount, GameModel.CoinCount.FormatWithSpaces());
+    }
+
+    public static void SetCursorPointer()
+    {
+        Cursor.SetCursor(Instance.cursorPointer, cursorPointertHotSpot_, CursorMode.Auto);
+    }
+
+    public static void SetCursorDefault()
+    {
+        Cursor.SetCursor(Instance.cursorDefault, cursorDefaultHotSpot_, CursorMode.Auto);
+    }
 
     public void ShowDisappearingPoint(Vector2 position, Transform parent)
     {
@@ -45,21 +84,7 @@ public class UIManager : MonoBehaviour
         Image pointImage = pointObject.GetComponent<Image>();
         RectTransform pointRectTransform = pointObject.GetComponent<RectTransform>();
         pointRectTransform.position = position;
-        StartCoroutine(AnimatePointDisappearance(pointImage));
-    }
-
-    private IEnumerator AnimatePointDisappearance(Image pointImage)
-    {
-        float time = 0f;
-        Color startColor = pointImage.color;
-        while (time < animationDuration)
-        {
-            time += Time.deltaTime;
-            float t = time / animationDuration;
-            pointImage.color = Color.Lerp(startColor, Color.clear, t);
-            yield return null;
-        }
-        Destroy(pointImage.gameObject);
+        StartCoroutine(Utils.AnimatePointDisappearance(pointImage));
     }
 
     public void OpenConsumablePopup()
@@ -72,8 +97,19 @@ public class UIManager : MonoBehaviour
         ConsumablePopup.SetActive(false);
     }
 
-    public void ConvertCoinToCredit(int coinAmount)
+    public void BuyMedpack()
     {
-        GameModel.ConvertCoinToCredit(coinAmount);
+        if (!GameModel.HasRunningOperations)
+        {
+            GameModel.BuyConsumableForGold(GameModel.ConsumableTypes.Medpack);
+        }
+    }
+
+    public void BuyArmorPlate()
+    {
+        if (!GameModel.HasRunningOperations)
+        {
+            GameModel.BuyConsumableForSilver(GameModel.ConsumableTypes.ArmorPlate);
+        }
     }
 }

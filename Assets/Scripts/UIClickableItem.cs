@@ -13,9 +13,27 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private bool isPressed_;
 
 
-    public void SetImageColor(Color color)
+    private void SetImageColor(Color color)
     {
         GetComponent<Image>().color = color;
+    }
+
+    private bool IsPointerOverGameObject()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        foreach (RaycastResult result in results)
+        {
+            GameObject hitObject = result.gameObject;
+            if (hitObject == gameObject)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -51,32 +69,11 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             InitClick();
         }
-        else
-        {
-            UIManager.SetCursorDefault();
-        }
+        UIManager.SetCursorDefault();
         SetImageColor(defaultColor);
         isPressed_ = false;
     }
 
-
-    private bool IsPointerOverGameObject()
-    {
-        Vector3 mousePosition = Input.mousePosition;
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = mousePosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
-        foreach (RaycastResult result in results)
-        {
-            GameObject hitObject = result.gameObject;
-            if (hitObject == gameObject)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     public void InitClick()
     {
         if (UIManager.Instance != null && !string.IsNullOrEmpty(onClickFunctionName))
