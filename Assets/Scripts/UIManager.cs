@@ -53,12 +53,11 @@ public class UIManager : MonoBehaviour
             ErrorMessage.SetTextValue(result.ErrorDescription);
             foreach (TMP_Text text in ErrorMessage)
             {
-                // StartCoroutine(Utils.FadeText(text));
-                StartCoroutine(AnimationUtils.AnimateColorChange(text, new Color(text.color.r, text.color.g, text.color.b, 0f), 3.0f, () =>
+                text.AnimateColorChange(new Color(text.color.r, text.color.g, text.color.b, 0f), 3.0f, () =>
                 {
                     text.text = "";
                     text.color = text.color;
-                }));
+                });
             }
         }
     }
@@ -89,7 +88,7 @@ public class UIManager : MonoBehaviour
         Image pointImage = pointObject.GetComponent<Image>();
         RectTransform pointRectTransform = pointObject.GetComponent<RectTransform>();
         pointRectTransform.position = position;
-        StartCoroutine(AnimationUtils.AnimateColorChange(pointImage, Color.clear, 0.3f, () => Destroy(pointImage.gameObject)));
+        pointImage.AnimateColorChange(Color.clear, 0.3f, () => Destroy(pointImage.gameObject));
     }
 
     public void OpenConsumablePopup()
