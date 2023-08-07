@@ -66,9 +66,9 @@ public class UIManager : MonoBehaviour
                         text.text = "";
                         text.color = startColor;
                     });
-                    
+                    continue;
                 }
-
+                text.text = "";
             }
         }
     }

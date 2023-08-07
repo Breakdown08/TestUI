@@ -50,6 +50,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         SetImageColor(hoverColor);
         UIManager.SetCursorPointer();
+        SoundManager.PlayCursorHoverSound();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -70,6 +71,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         SetImageColor(pressedColor);
         isPressed_ = true;
+        SoundManager.PlayCursorClickSound();
         ShowDisappearingPoint(eventData.position);
     }
 
