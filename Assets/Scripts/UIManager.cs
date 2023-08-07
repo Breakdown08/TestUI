@@ -50,22 +50,27 @@ public class UIManager : MonoBehaviour
     {
         if (!result.IsSuccess)
         {
-            Utils.SetObjectsTextValue(ErrorMessage, result.ErrorDescription);
+            ErrorMessage.SetTextValue(result.ErrorDescription);
             foreach (TMP_Text text in ErrorMessage)
             {
-                StartCoroutine(Utils.FadeText(text));
+                // StartCoroutine(Utils.FadeText(text));
+                StartCoroutine(AnimationUtils.AnimateColorChange(text, new Color(text.color.r, text.color.g, text.color.b, 0f), 3.0f, () =>
+                {
+                    text.text = "";
+                    text.color = text.color;
+                }));
             }
         }
     }
 
     private void RefreshUI()
     {
-        Utils.SetObjectsTextValue(MedpackCount, GameModel.GetConsumableCount(GameModel.ConsumableTypes.Medpack).ToString());
-        Utils.SetObjectsTextValue(ArmorPlateCount, GameModel.GetConsumableCount(GameModel.ConsumableTypes.ArmorPlate).ToString());
+        MedpackCount.SetTextValue(GameModel.GetConsumableCount(GameModel.ConsumableTypes.Medpack).ToString());
+        ArmorPlateCount.SetTextValue(GameModel.GetConsumableCount(GameModel.ConsumableTypes.ArmorPlate).ToString());
         MedpackPrice.text = GameModel.ConsumablesPrice[GameModel.ConsumableTypes.Medpack].CoinPrice.ToString();
         ArmorPlatePrice.text = GameModel.ConsumablesPrice[GameModel.ConsumableTypes.ArmorPlate].CreditPrice.ToString();
-        Utils.SetObjectsTextValue(CreditCount, GameModel.CreditCount.FormatWithSpaces());
-        Utils.SetObjectsTextValue(CoinCount, GameModel.CoinCount.FormatWithSpaces());
+        CreditCount.SetTextValue(GameModel.CreditCount.FormatWithSpaces());
+        CoinCount.SetTextValue(GameModel.CoinCount.FormatWithSpaces());
     }
 
     public static void SetCursorPointer()
@@ -84,7 +89,7 @@ public class UIManager : MonoBehaviour
         Image pointImage = pointObject.GetComponent<Image>();
         RectTransform pointRectTransform = pointObject.GetComponent<RectTransform>();
         pointRectTransform.position = position;
-        StartCoroutine(Utils.AnimatePointDisappearance(pointImage));
+        StartCoroutine(AnimationUtils.AnimateColorChange(pointImage, Color.clear, 0.3f, () => Destroy(pointImage.gameObject)));
     }
 
     public void OpenConsumablePopup()
