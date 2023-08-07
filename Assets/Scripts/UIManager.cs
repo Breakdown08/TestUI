@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +18,8 @@ public class UIManager : MonoBehaviour
     public GameObject ConsumablePopup;
     public TMP_Text MedpackPrice;
     public TMP_Text ArmorPlatePrice;
-    
+
+    [Header("Wallet Popup")]
     public GameObject WalletPopup;
 
     [Header("Cursor")]
@@ -82,15 +82,6 @@ public class UIManager : MonoBehaviour
         Cursor.SetCursor(Instance.cursorDefault, cursorDefaultHotSpot_, CursorMode.Auto);
     }
 
-    public void ShowDisappearingPoint(Vector2 position, Transform parent)
-    {
-        GameObject pointObject = Instantiate(disappearingPointPrefab, parent);
-        Image pointImage = pointObject.GetComponent<Image>();
-        RectTransform pointRectTransform = pointObject.GetComponent<RectTransform>();
-        pointRectTransform.position = position;
-        pointImage.AnimateColorChange(Color.clear, 0.3f, () => Destroy(pointImage.gameObject));
-    }
-
     public void OpenConsumablePopup()
     {
         ConsumablePopup.SetActive(true);
@@ -99,21 +90,5 @@ public class UIManager : MonoBehaviour
     public void CloseConsumablePopup()
     {
         ConsumablePopup.SetActive(false);
-    }
-
-    public void BuyMedpack()
-    {
-        if (!GameModel.HasRunningOperations)
-        {
-            GameModel.BuyConsumableForGold(GameModel.ConsumableTypes.Medpack);
-        }
-    }
-
-    public void BuyArmorPlate()
-    {
-        if (!GameModel.HasRunningOperations)
-        {
-            GameModel.BuyConsumableForSilver(GameModel.ConsumableTypes.ArmorPlate);
-        }
     }
 }

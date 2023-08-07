@@ -10,6 +10,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public Color defaultColor;
     public Color hoverColor;
     public Color pressedColor;
+    public GameObject onClickEffectPrefab;
     private bool isPressed_;
 
 
@@ -36,6 +37,15 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         return false;
     }
 
+    private void ShowDisappearingPoint(Vector2 position, Transform parent)
+    {
+        GameObject pointObject = Instantiate(onClickEffectPrefab, parent);
+        Image pointImage = pointObject.GetComponent<Image>();
+        RectTransform pointRectTransform = pointObject.GetComponent<RectTransform>();
+        pointRectTransform.position = position;
+        pointImage.AnimateColorChange(Color.clear, 0.3f, () => Destroy(pointImage.gameObject));
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         SetImageColor(hoverColor);
@@ -60,7 +70,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         SetImageColor(pressedColor);
         isPressed_ = true;
-        UIManager.Instance.ShowDisappearingPoint(eventData.position, transform);
+        ShowDisappearingPoint(eventData.position, transform);
     }
 
     public void OnPointerUp(PointerEventData eventData)
