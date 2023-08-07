@@ -21,4 +21,34 @@ public static class GameController
             GameModel.BuyConsumableForSilver(GameModel.ConsumableTypes.ArmorPlate);
         });
     }
+
+    public static void OpenConsumablePopup()
+    {
+        UIManager.OpenConsumablePopup();
+    }
+
+    public static void CloseConsumablePopup()
+    {
+        UIManager.CloseConsumablePopup();
+    }
+
+    public static void OpenWalletPopup()
+    {
+        UIManager.OpenWalletPopup();
+    }
+
+    public static void CloseWalletPopup()
+    {
+        UIManager.CloseWalletPopup();
+    }
+
+    public static int CalculateWalletExchange(int value)
+    {
+        return value * GameModel.CoinToCreditRate;
+    }
+
+    public static void ConvertCoinToCredit()
+    {
+        GameModel.ConvertCoinToCredit(UIManager.GetCalculatorInputValue());
+    }
 }

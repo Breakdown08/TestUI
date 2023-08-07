@@ -37,9 +37,9 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
         return false;
     }
 
-    private void ShowDisappearingPoint(Vector2 position, Transform parent)
+    private void ShowDisappearingPoint(Vector2 position)
     {
-        GameObject pointObject = Instantiate(onClickEffectPrefab, parent);
+        GameObject pointObject = Instantiate(onClickEffectPrefab, UIManager.Instance.canvas.transform);
         Image pointImage = pointObject.GetComponent<Image>();
         RectTransform pointRectTransform = pointObject.GetComponent<RectTransform>();
         pointRectTransform.position = position;
@@ -70,7 +70,7 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         SetImageColor(pressedColor);
         isPressed_ = true;
-        ShowDisappearingPoint(eventData.position, transform);
+        ShowDisappearingPoint(eventData.position);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -86,12 +86,13 @@ public class UIClickableItem : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void InitClick()
     {
-        if (UIManager.Instance != null && !string.IsNullOrEmpty(onClickFunctionName))
+        if (!string.IsNullOrEmpty(onClickFunctionName))
         {
-            System.Reflection.MethodInfo methodInfo = UIManager.Instance.GetType().GetMethod(onClickFunctionName);
+            System.Type type = typeof(GameController);
+            System.Reflection.MethodInfo methodInfo = type.GetMethod(onClickFunctionName, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
             if (methodInfo != null)
             {
-                methodInfo.Invoke(UIManager.Instance, null);
+                methodInfo.Invoke(null, null);
             }
         }
     }

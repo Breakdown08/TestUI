@@ -21,9 +21,13 @@ public class UIManager : MonoBehaviour
 
     [Header("Wallet Popup")]
     public GameObject WalletPopup;
+    public TMP_Text CoinToCreditRate;
+    public TMP_Text CreditsAmount;
+    public TMP_InputField calculationInput;
 
     [Header("Cursor")]
     public GameObject disappearingPointPrefab;
+    public GameObject canvas;
     public Texture2D cursorDefault;
     public Texture2D cursorPointer;
     private static Vector2 cursorDefaultHotSpot_ = new Vector2(0, 0);
@@ -34,6 +38,7 @@ public class UIManager : MonoBehaviour
         Instance = this;
         GameModel.OperationComplete += HandleOperationComplete;
         GameModel.ModelChanged += RefreshUI;
+        calculationInput.onValueChanged.AddListener(delegate{UpdateCalculationResult();});
     }
 
     private void Update()
@@ -53,11 +58,17 @@ public class UIManager : MonoBehaviour
             ErrorMessage.SetTextValue(result.ErrorDescription);
             foreach (TMP_Text text in ErrorMessage)
             {
-                text.AnimateColorChange(new Color(text.color.r, text.color.g, text.color.b, 0f), 3.0f, () =>
+                if (text.gameObject.activeInHierarchy)
                 {
-                    text.text = "";
-                    text.color = text.color;
-                });
+                    Color startColor = text.color;
+                    text.AnimateColorChange(new Color(text.color.r, text.color.g, text.color.b, 0f), 3.0f, () =>
+                    {
+                        text.text = "";
+                        text.color = startColor;
+                    });
+                    
+                }
+
             }
         }
     }
@@ -70,6 +81,8 @@ public class UIManager : MonoBehaviour
         ArmorPlatePrice.text = GameModel.ConsumablesPrice[GameModel.ConsumableTypes.ArmorPlate].CreditPrice.ToString();
         CreditCount.SetTextValue(GameModel.CreditCount.FormatWithSpaces());
         CoinCount.SetTextValue(GameModel.CoinCount.FormatWithSpaces());
+        CoinToCreditRate.text = GameModel.CoinToCreditRate.ToString();
+        UpdateCalculationResult();
     }
 
     public static void SetCursorPointer()
@@ -82,13 +95,39 @@ public class UIManager : MonoBehaviour
         Cursor.SetCursor(Instance.cursorDefault, cursorDefaultHotSpot_, CursorMode.Auto);
     }
 
-    public void OpenConsumablePopup()
+    public static void OpenConsumablePopup()
     {
-        ConsumablePopup.SetActive(true);
+        Instance.ConsumablePopup.SetActive(true);
     }
 
-    public void CloseConsumablePopup()
+    public static void CloseConsumablePopup()
     {
-        ConsumablePopup.SetActive(false);
+        Instance.ConsumablePopup.SetActive(false);
+    }
+
+    public static void OpenWalletPopup()
+    {
+        Instance.WalletPopup.SetActive(true);
+    }
+
+    public static void CloseWalletPopup()
+    {
+        Instance.WalletPopup.SetActive(false);
+    }
+
+    public static int GetCalculatorInputValue()
+    {
+        int result = 0;
+        if (!string.IsNullOrEmpty(Instance.calculationInput.text))
+        {
+            result = (int.Parse(Instance.calculationInput.text));
+        }
+        return result;
+    }
+
+    public static void UpdateCalculationResult()
+    {
+        int result = GameController.CalculateWalletExchange(GetCalculatorInputValue());
+        Instance.CreditsAmount.text = result.ToString();
     }
 }

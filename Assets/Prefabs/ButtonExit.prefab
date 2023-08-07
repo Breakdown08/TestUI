@@ -335,6 +335,7 @@ MonoBehaviour:
   defaultColor: {r: 0, g: 0, b: 0, a: 0}
   hoverColor: {r: 0.25882354, g: 0.25882354, b: 0.25882354, a: 1}
   pressedColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 0}
+  onClickEffectPrefab: {fileID: 4011486675541548724, guid: df15573bbe369a24bbc8a9c31ea4d18d, type: 3}
 --- !u!114 &5496573885529730076
 MonoBehaviour:
   m_ObjectHideFlags: 0
