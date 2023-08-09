@@ -73,6 +73,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private static void UpdateCalculationResult()
+    {
+        int result = GameController.CalculateWalletExchange(GetCalculatorInputValue());
+        Instance.CreditsAmount.text = result.ToString();
+    }
+
     private void RefreshUI()
     {
         MedpackCount.SetTextValue(GameModel.GetConsumableCount(GameModel.ConsumableTypes.Medpack).ToString());
@@ -123,11 +129,5 @@ public class UIManager : MonoBehaviour
             result = (int.Parse(Instance.calculationInput.text));
         }
         return result;
-    }
-
-    public static void UpdateCalculationResult()
-    {
-        int result = GameController.CalculateWalletExchange(GetCalculatorInputValue());
-        Instance.CreditsAmount.text = result.ToString();
     }
 }

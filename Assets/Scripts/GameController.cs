@@ -1,24 +1,37 @@
 public static class GameController
 {
-    private static void BuyConsumable(GameModel.ConsumableTypes consumableType, System.Action purchaseAction)
+
+    private static bool CanPerformAction()
     {
-        if (!GameModel.HasRunningOperations)
+        return !GameModel.HasRunningOperations;
+    }
+
+    private static void PerformAction(System.Action action)
+    {
+        if (CanPerformAction())
         {
-            purchaseAction.Invoke();
+            action.Invoke();
         }
     }
 
     public static void BuyMedpack()
     {
-        BuyConsumable(GameModel.ConsumableTypes.Medpack, () => {
+        PerformAction(() => {
             GameModel.BuyConsumableForGold(GameModel.ConsumableTypes.Medpack);
         });
     }
 
     public static void BuyArmorPlate()
     {
-        BuyConsumable(GameModel.ConsumableTypes.ArmorPlate, () => {
+        PerformAction(() => {
             GameModel.BuyConsumableForSilver(GameModel.ConsumableTypes.ArmorPlate);
+        });
+    }
+
+    public static void ConvertCoinToCredit()
+    {
+        PerformAction(() => {
+            GameModel.ConvertCoinToCredit(UIManager.GetCalculatorInputValue());
         });
     }
 
@@ -45,10 +58,5 @@ public static class GameController
     public static int CalculateWalletExchange(int value)
     {
         return value * GameModel.CoinToCreditRate;
-    }
-
-    public static void ConvertCoinToCredit()
-    {
-        GameModel.ConvertCoinToCredit(UIManager.GetCalculatorInputValue());
     }
 }
